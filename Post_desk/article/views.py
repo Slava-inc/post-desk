@@ -1,21 +1,22 @@
-from django.shortcuts import render
-from desk.models import Article
+from django.shortcuts import render, redirect
+from article.models import Article
 from .forms import ArticleForm
+from django.conf import settings
 
 def index(request):
 	articles = Article.objects.all()
 	return render(request, 'article/index.html', {'articles': articles})
 	
-def detail(request):
-	article = Article.objects.get(pk=1)
+def detail(request, pk):
+	article = Article.objects.get(pk=pk)
 	
 	if request.method == 'POST':
 		form = ArticleForm(request.POST, instance=article)
 		
-		if form.isvalid():
+		if form.is_valid():
 			form.save()
 			
-			return render('detail')
+			return redirect(settings.SITE_URL)
 	else:
 		form = ArticleForm(instance=article)
 		

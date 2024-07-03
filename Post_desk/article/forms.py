@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from desk.models import Article
+from article.models import Article
 
 class ArticleForm(ModelForm):
 	class Meta:

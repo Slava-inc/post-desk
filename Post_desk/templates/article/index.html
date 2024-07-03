@@ -1,0 +1,10 @@
+{% for article in articles %}
+<h1>{{article.tittle}}</h1>
+
+<h2> {{ article.user }}  </h2>
+<h3> {{ article.category.name }}</h3>
+<div class="body">
+	{{ article.content | truncatewords:10 }} 
+</div>
+
+{% endfor %}
