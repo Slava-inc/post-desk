@@ -26,8 +26,7 @@ SECRET_KEY = 'django-insecure-voj8i+&#d**$w^mmu32$j6j3*03%%4d#pol0l=n_hxyk(gyeud
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+SITE_ID = 1
 
 # Application definition
 
@@ -47,6 +46,8 @@ INSTALLED_APPS = [
 
     'ckeditor',
     'ckeditor_uploader',
+    'sign',
+    'protect',
 ]
 
 MIDDLEWARE = [
@@ -133,6 +134,17 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+LOGIN_URL = 'sign/login/'
+LOGIN_REDIRECT_URL = '/'
+
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+
+ACCOUNT_FORMS = {'signup': 'sign.models.BasicSignupForm'}
+
 AUTHENTICATION_BACKENDS = (
     # Needed to login by username in Django admin, regardless of `allauth`
     "django.contrib.auth.backends.ModelBackend",
@@ -154,3 +166,5 @@ EMAIL_USE_SSL = True  # Яндекс использует ssl, подробне�
 
 SITE_URL = 'http://127.0.0.1:8000'
 DEFAULT_FROM_EMAIL = 'slavikdanchenko@yandex.ru'
+
+ALLOWED_HOSTS = ['127.0.0.1']

@@ -25,4 +25,7 @@ urlpatterns = [
 	path('', index, name='index'),
 	path('ckeditor/', include('ckeditor_uploader.urls')),
 	path('detail/<int:pk>', detail, name='detail'),
+    path('sign/', include('sign.urls')),
+    path('protect/', include('protect.urls')),
 	] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
