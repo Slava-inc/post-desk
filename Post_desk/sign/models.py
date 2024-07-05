@@ -12,7 +12,14 @@ class BaseRegisterForm(UserCreationForm):
     email = forms.EmailField(label = "Email")
     # first_name = forms.CharField(label = "Имя")
     # last_name = forms.CharField(label = "Фамилия")
-
+    class Meta:
+        model = User
+        fields = ("username",
+                 "email",
+                 "password1",
+                 "password2",
+                 )
+            
     def save(self, *args, **kwargs):
         user = super(BaseRegisterForm, self).save(*args, **kwargs)
         basic_group = Group.objects.get(name='common')

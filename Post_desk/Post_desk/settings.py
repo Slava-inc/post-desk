@@ -39,15 +39,16 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # 'desk',
     'article',
-
+    'sign',
+    'protect',
+    
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
 
     'ckeditor',
     'ckeditor_uploader',
-    'sign',
-    'protect',
+
 ]
 
 MIDDLEWARE = [
