@@ -22,10 +22,10 @@ from django.conf.urls.static import static
 
 urlpatterns = [
 	path('admin/', admin.site.urls),
-	path('', index, name='index'),
+	path('article/index/', index, name='index'),
+    path('', include('protect.urls')),
 	path('ckeditor/', include('ckeditor_uploader.urls')),
 	path('detail/<int:pk>', detail, name='detail'),
     path('sign/', include('sign.urls')),
-    path('protect/', include('protect.urls')),
 	] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
