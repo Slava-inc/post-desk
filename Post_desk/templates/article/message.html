@@ -1,0 +1,10 @@
+<head>
+	{{ article.tittle }}
+</head>
+
+<form method="post">
+	{% csrf_token %}
+	{{ form.as_p }}
+	
+	<button name="send"> Send </button>
+</form>

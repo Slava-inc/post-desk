@@ -1,0 +1,10 @@
+<h1>{{article.tittle}}</h1>
+
+<hr>
+	{{ article.content|safe }}
+
+</hr>
+
+<!-- <h3> Message</h3> -->
+{% url 'message_create' pk as the_url%}
+<a href="{{ the_url }}">New message</a>

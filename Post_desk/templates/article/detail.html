@@ -17,5 +17,10 @@
 	{{ form.media }}
 	{{ form.as_p }}
 	
-	<button> Save changes </button>
+	<button name="save"> Save changes </button>
+	<!-- <button name="message"> Send message </button> 
+	<form action="{% url 'message_create' %}" method="post">
+		{% csrf_token %}
+		<input type="submit" value="Message">
+	</form> -->
 </form>

@@ -169,4 +169,6 @@ EMAIL_USE_SSL = True  # Яндекс использует ssl, подробне�
 SITE_URL = 'http://127.0.0.1:8000'
 DEFAULT_FROM_EMAIL = 'slavikdanchenko@yandex.ru'
 
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 ALLOWED_HOSTS = ['127.0.0.1']
