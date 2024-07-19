@@ -16,15 +16,17 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from article.views import index, detail, update
+from article.views import detail, update
 from django.conf import settings
 from django.conf.urls.static import static
 
 from protect.views import MessageCreate
+from article.views import ArticlesList
 
 urlpatterns = [
 	path('admin/', admin.site.urls),
-	path('article/index/', index, name='index'),
+	# path('article/index/', index, name='index'),
+	path('article/index/', ArticlesList.as_view()),
     path('', include('protect.urls')),
 	path('ckeditor/', include('ckeditor_uploader.urls')),
     path('article/index/<int:pk>', detail, name='detail'),

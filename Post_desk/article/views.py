@@ -2,12 +2,24 @@ from django.shortcuts import render, redirect
 from article.models import Article, Message
 from .forms import ArticleForm, MessageForm, DetailForm
 from django.conf import settings
-from django.views.generic import CreateView
+from django.views.generic import ListView
 import os
 
-def index(request):
-	articles = Article.objects.all()
-	return render(request, 'article/index.html', {'articles': articles})
+
+# def index(request):
+# 	articles = Article.objects.all()
+# 	return render(request, 'article/index.html', {'articles': articles})
+
+class ArticlesList(ListView):
+	model = Article
+	template_name = 'article/view.html'
+
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+		articles = Article.objects.all()
+		context['articles'] = articles
+
+		return context
 	
 def update(request, pk):
 	article = Article.objects.get(pk=pk)
