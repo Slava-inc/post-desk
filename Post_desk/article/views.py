@@ -6,9 +6,20 @@ from django.views.generic import ListView
 import os
 
 
-# def index(request):
-# 	articles = Article.objects.all()
-# 	return render(request, 'article/index.html', {'articles': articles})
+def message_create(request, pk):
+	article = Article.objects.get(id=pk)
+	mes = Message.objects.filter(article=article, user_from=request.user).first()
+	
+	if mes == None:
+		mes = Message(article = article, user_from=request.user)
+		mes.save()
+	form = MessageForm()
+	mes.text = 'This is text'
+	return render(request, 'article/message.html', {'article': article, 'user': request.user, 'form': form, 'message': mes})
+
+def index(request):
+	articles = Article.objects.all()
+	return render(request, 'article/view.html', {'articles': articles})
 
 class ArticlesList(ListView):
 	model = Article
@@ -23,6 +34,9 @@ class ArticlesList(ListView):
 	
 def update(request, pk):
 	article = Article.objects.get(pk=pk)
+	# mes = Message(article = article, user_from=request.user)
+	# mes.save()
+
 	if request.method == 'POST':
 		form = ArticleForm(request.POST, instance=article)
 
@@ -38,8 +52,9 @@ def update(request, pk):
 
 def detail(request, pk):
 	article = Article.objects.get(pk=pk)
+
 	form = DetailForm(request.GET, instance=article)
 	if request.method == 'POST':
-		form = MessageForm(request.POST, instance=article)
-		return render(request, 'article/message.html', {'article': article, 'form': form})		
-	return render(request, 'article/view.html', {'article': article, 'form': form, 'pk': pk})	
+		form = DetailForm(request.POST, instance=article)
+		return render(request, 'article/detail.html', {'article': article, 'form': form, 'user_from': request.user})		
+	return render(request, 'article/detail.html', {'article': article, 'form': form, 'user_from': request.user})	

@@ -12,8 +12,8 @@
 	{{ article.content|safe }}
 </div>
 
-	<form action="" method="post">
+	<form action="{% url 'detail' pk=article.id %}" method="post">
 		{% csrf_token %}
-		<input type="submit" value="message">
+		<input type="submit" value="article">
 	</form>
 {% endfor %}

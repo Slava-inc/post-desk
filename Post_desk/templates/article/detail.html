@@ -11,16 +11,10 @@
 <hr>
 	{{ article.content_upload|safe }}
 	
-<form method="post">
-	{% csrf_token %}
+
 	
-	{{ form.media }}
-	{{ form.as_p }}
-	
-	<button name="save"> Save changes </button>
-	<!-- <button name="message"> Send message </button> 
-	<form action="{% url 'message_create' %}" method="post">
+
+	<form action="{% url 'message_create' pk=article.id %}" method="post">
 		{% csrf_token %}
 		<input type="submit" value="Message">
-	</form> -->
-</form>
+	</form> 

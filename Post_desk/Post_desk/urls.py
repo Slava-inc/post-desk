@@ -16,22 +16,23 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from article.views import detail, update
+from article.views import detail, update, index
 from django.conf import settings
 from django.conf.urls.static import static
 
 from protect.views import MessageCreate
-from article.views import ArticlesList
+from article.views import ArticlesList, message_create
 
 urlpatterns = [
 	path('admin/', admin.site.urls),
 	# path('article/index/', index, name='index'),
-	path('article/index/', ArticlesList.as_view()),
+	path('article/index/', ArticlesList.as_view(), name='article_list'),
     path('', include('protect.urls')),
 	path('ckeditor/', include('ckeditor_uploader.urls')),
     path('article/index/<int:pk>', detail, name='detail'),
     path('article/update/<int:pk>', update, name='update'),
     path('sign/', include('sign.urls')),
-    path('article/message/<int:pk>', MessageCreate.as_view(), name='message_create')
+    # path('article/message/<int:pk>', MessageCreate.as_view(), name='message_create'),
+    path('article/message/<int:pk>', message_create, name='message_create')
 	] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
