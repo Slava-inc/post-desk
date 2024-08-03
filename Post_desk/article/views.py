@@ -3,6 +3,7 @@ from article.models import Article, Message
 from .forms import ArticleForm, MessageForm, DetailForm
 from django.conf import settings
 from django.views.generic import ListView
+from django.http import HttpResponseRedirect
 import os
 
 
@@ -13,8 +14,15 @@ def message_create(request, pk):
 	if mes == None:
 		mes = Message(article = article, user_from=request.user)
 		mes.save()
-	form = MessageForm()
-	mes.text = 'This is text'
+
+	if request.method == 'POST':
+		form = MessageForm(request.POST, instance=mes)
+		if form.is_valid():
+			form.save()
+			return HttpResponseRedirect('/article/index')
+		else:
+			form = MessageForm(instance=mes)
+
 	return render(request, 'article/message.html', {'article': article, 'user': request.user, 'form': form, 'message': mes})
 
 def index(request):

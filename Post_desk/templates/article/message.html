@@ -3,10 +3,9 @@
 </h1>
 
 <p> {{ message.text}}</p>
-<form method="post">
+<form action="" method="post">
 	{% csrf_token %}
-	<p> {{ user }}</p>
 	{{ form.as_p }}
 	
-	<button name="send"> Send </button>
+	<input type="submit" value="send">
 </form>
