@@ -1,0 +1,12 @@
+{% load static %}
+
+<script type="text/javascript" src="{% static 'ckeditor/skeditor-init.js' %}"></script>
+<script type="text/javascript" src="{% static 'ckeditor/skedtor/skeditor.js' %}"></script>
+	
+
+<form action="{% url 'create' %}" method="post">
+		{% csrf_token %}
+		{{ form.as_p}}
+		{{form.media}}
+		<input type="submit" value="Add">
+</form> 

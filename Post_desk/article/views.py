@@ -42,8 +42,6 @@ class ArticlesList(ListView):
 	
 def update(request, pk):
 	article = Article.objects.get(pk=pk)
-	# mes = Message(article = article, user_from=request.user)
-	# mes.save()
 
 	if request.method == 'POST':
 		form = ArticleForm(request.POST, instance=article)
@@ -57,6 +55,19 @@ def update(request, pk):
 		
 	return render(request, 'article/detail.html', {'article': article, 'form': form})
 
+def create(request):
+
+	if request.method == 'POST':
+		form = ArticleForm(request.POST)
+
+		if form.is_valid():
+			form.save()
+			
+			return redirect(settings.SITE_URL)
+	else:
+		form = ArticleForm(user=request.user)
+		
+	return render(request, 'article/create.html', {'form': form})
 
 def detail(request, pk):
 	article = Article.objects.get(pk=pk)

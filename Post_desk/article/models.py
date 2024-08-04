@@ -13,13 +13,13 @@ class Category(models.Model):
         return self.name
 
 class Article(models.Model):
-    tittle = models.CharField(max_length=255)
+    tittle = models.CharField(max_length=255, default='')
     text = models.CharField(max_length=1024, default='text edition')
     content = RichTextField(blank=True, null=True)
     content_upload = RichTextUploadingField(blank=True, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     likes = models.ManyToManyField(User, through='UserArticle', related_name='user_like', blank=True) 
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, blank=False)
 
 
 class UserArticle(models.Model):
