@@ -2,8 +2,9 @@ from django.shortcuts import render, redirect
 from article.models import Article, Message
 from .forms import ArticleForm, MessageForm, DetailForm
 from django.conf import settings
-from django.views.generic import ListView
+from django.views.generic import ListView, CreateView
 from django.http import HttpResponseRedirect
+from django.urls import reverse
 import os
 
 
@@ -55,20 +56,46 @@ def update(request, pk):
 		
 	return render(request, 'article/detail.html', {'article': article, 'form': form})
 
-def create(request):
+# def create(request):
 
-	if request.method == 'POST':
-		form = ArticleForm(request.POST)
+# 	if request.method == 'POST':
+# 		form = ArticleForm(request.POST)
 
-		if form.is_valid():
-			form.save()
+# 		if form.is_valid():
+# 			form.save()
 			
-			return redirect(settings.SITE_URL)
-	else:
-		form = ArticleForm(user=request.user)
+# 			return redirect(settings.SITE_URL)
+# 	else:
+# 		form = ArticleForm()
 		
-	return render(request, 'article/create.html', {'form': form})
+# 	return render(request, 'article/create.html', {'form': form})
 
+class ArticleCreate(CreateView):
+	# Указываем нашу разработанную форму
+	form_class = ArticleForm
+	# модель товаров
+	model = Article
+    # и новый шаблон, в котором используется форма.
+	template_name = 'article/create.html'
+    
+	def get_success_url(self):
+		next_url = self.request.GET.get('next')
+		if next_url:
+			return next_url 
+		return '/article/index/'
+	
+	def form_valid(self, form):
+		article = form.save(commit=False)
+		article.user = self.request.user 
+		return super().form_valid(form)
+
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+		context['next_url'] = self.request.GET.get('next')
+        # send_news_notification(object=self.object, action='post_add')
+		return context  
+
+		
 def detail(request, pk):
 	article = Article.objects.get(pk=pk)
 

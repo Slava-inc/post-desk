@@ -15,26 +15,28 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
-from article.views import detail, update, create
+from django.urls import path, include, re_path
+from article.views import detail, update
 from django.conf import settings
 from django.conf.urls.static import static
 
 from protect.views import MessageCreate
-from article.views import ArticlesList, message_create
+from article.views import ArticlesList,ArticleCreate, message_create
 from django.contrib.auth.decorators import login_required
+
+app_name = 'post_desk'
 
 urlpatterns = [
 	path('admin/', admin.site.urls),
-	# path('article/index/', index, name='index'),
-	path('article/index/', ArticlesList.as_view(), name='article_list'),
-    path('', include('protect.urls')),
-	path('ckeditor/', include('ckeditor_uploader.urls')),
-    path('article/index/<int:pk>', detail, name='detail'),
-    path('article/create/', create, name='create'),
-    path('article/update/<int:pk>', update, name='update'),
+	# path('article/index/', ArticlesList.as_view(), name='/article_list'),
+    # path('', include('protect.urls')),
+	# path('ckeditor/', include('ckeditor_uploader.urls')),
+    # path('article/index/<int:pk>', detail, name='detail'),
+    # path('article/create/', ArticleCreate.as_view(), name='create'),
+    # path('article/update/<int:pk>', update, name='update'),
     path('sign/', include('sign.urls')),
-    # path('article/message/<int:pk>', MessageCreate.as_view(), name='message_create'),
-    path('article/message/<int:pk>', login_required(message_create), name='message_create')
-	] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    path('', include('article.urls', namespace='article')),
+    re_path(r'^ckeditor/', include('ckeditor_uploader.urls')),
+    # path('article/message/<int:pk>', login_required(message_create), name='message_create')
+	] # + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

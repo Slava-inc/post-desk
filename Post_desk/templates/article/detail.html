@@ -14,7 +14,7 @@
 
 	
 
-	<form action="{% url 'message_create' pk=article.id %}" method="post">
+	<form action="{% url 'article:message_create' pk=article.id %}" method="post">
 		{% csrf_token %}
 		<input type="submit" value="Message">
 	</form> 
