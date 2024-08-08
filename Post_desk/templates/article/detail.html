@@ -18,3 +18,8 @@
 		{% csrf_token %}
 		<input type="submit" value="Message">
 	</form> 
+
+	<form action="{% url 'article:like' pk=article.id %}" method="post">
+		{% csrf_token %}
+		<input type="submit" value="Like">
+	</form> 	

@@ -1,14 +1,17 @@
 from django.shortcuts import render, redirect
-from article.models import Article, Message
+from article.models import Article, Message, UserArticle
 from .forms import ArticleForm, MessageForm, DetailForm
 from django.conf import settings
 from django.views.generic import ListView, CreateView
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-import os
+from django.contrib.auth.decorators import permission_required, login_required
 
 
+@login_required
+@permission_required('article.add_Message', raise_exception=True)
 def message_create(request, pk):
+
 	article = Article.objects.get(id=pk)
 	mes = Message.objects.filter(article=article, user_from=request.user).first()
 	
@@ -25,6 +28,18 @@ def message_create(request, pk):
 			form = MessageForm(instance=mes)
 
 	return render(request, 'article/message.html', {'article': article, 'user': request.user, 'form': form, 'message': mes})
+
+@login_required
+def like(request, pk):
+	article = Article.objects.get(id=pk)
+	like = UserArticle.objects.filter(article=article, user=request.user).first()
+	
+	if like == None:
+		like = UserArticle(article = article, user=request.user)
+		like.save()
+
+	articles = Article.objects.all()
+	return render(request, 'article/view.html', {'articles': articles})
 
 def index(request):
 	articles = Article.objects.all()
