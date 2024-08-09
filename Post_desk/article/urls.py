@@ -1,6 +1,6 @@
 from django.urls import path, include
 from article.views import detail, update
-from article.views import ArticlesList,ArticleCreate, message_create, like
+from article.views import ArticlesList,ArticleCreate, message_create, like, message_journal, search
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.conf.urls.static import static
@@ -17,5 +17,7 @@ urlpatterns = [
     path('article/update/<int:pk>', update, name='update'),
     # path('sign/', include('sign.urls')),
     # path('article/message/<int:pk>', MessageCreate.as_view(), name='message_create'),
-    path('article/message/<int:pk>/', login_required(message_create), name='message_create')
+    path('article/message/<int:pk>/', login_required(message_create), name='message_create'),
+    path('article/message/', login_required(message_journal), name='message_journal'),
+    path('article/message/seacrh/<str:q>/', search, name='search'),
 	] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

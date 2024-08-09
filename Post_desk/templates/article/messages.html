@@ -1,0 +1,19 @@
+{% for message in messages %}
+<div class="model-class">
+    <h2>
+		{{ message.article}}
+	</h2>
+        {{ message.user_from }}:
+        {{ message.text }}
+</div>
+
+{% endfor %}
+
+<form action="search/" method="get" class="form-inline mt-2 m\
+t-md-0">
+<input id="q" name="q" value="{{ request.GET.q }}" \
+class="form-control mr-sm-2" type="text" placeholder="Searc\
+h..." aria-label="Search">
+<button class="btn btn-outline-success my-2 my-sm-0\
+" type="submit">Search</button>
+</form>

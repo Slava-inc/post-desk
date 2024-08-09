@@ -12,4 +12,9 @@
 </div>
 {% endfor %}
 
+<form method="get" action="{% url 'article:message_journal' %}">
+    {% csrf_token %}
+    <input type = "submit" value="message open">
+</form>
+
 {% endblock %}

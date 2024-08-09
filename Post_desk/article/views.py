@@ -7,6 +7,21 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.decorators import permission_required, login_required
 
+from django.db.models.signals import m2m_changed, post_save
+
+from django.core.mail import send_mail
+
+
+def message_notify(sender, instance, created, **kwargs):
+	send_mail(
+		subject=f'{instance.article.tittle}, {instance.user_from.username}',
+		message=f'on your article  {instance.article.tittle} recieved message  {instance.text}',
+		from_email='slavikdanchenko@yandex.ru',
+		recipient_list=[instance.article.user.email] 
+	)
+
+
+post_save.connect(message_notify, sender=Message)
 
 @login_required
 @permission_required('article.add_Message', raise_exception=True)
@@ -119,3 +134,17 @@ def detail(request, pk):
 		form = DetailForm(request.POST, instance=article)
 		return render(request, 'article/detail.html', {'article': article, 'form': form, 'user_from': request.user})		
 	return render(request, 'article/detail.html', {'article': article, 'form': form, 'user_from': request.user})	
+
+def message_journal(request):
+	articles = Article.objects.filter(user=request.user)
+	messages = Message.objects.filter(article__in=articles)
+	return render(request, 'article/messages.html', {'messages': messages})
+
+def search(request, q):
+	q = request.GET.get('q', None)
+	items = ''
+	if q is None or q is "":
+		messages = Message.objects.all()
+	elif q is not None:
+		messages = Message.objects.filter(tittle__contains=q)
+	return render(request, 'article/messages.html', {'messages': messages})

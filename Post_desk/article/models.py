@@ -21,6 +21,8 @@ class Article(models.Model):
     likes = models.ManyToManyField(User, through='UserArticle', related_name='user_like', blank=True) 
     category = models.ForeignKey(Category, on_delete=models.CASCADE, blank=False)
 
+    def __str__(self):
+        return self.tittle
 
 class UserArticle(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
