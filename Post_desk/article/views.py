@@ -141,7 +141,7 @@ def message_journal(request):
 	return render(request, 'article/messages.html', {'messages': messages})
 
 def search(request, q):
-	items = ''
+	
 	if q is None or q is "":
 		messages = Message.objects.all()
 	elif q is not None:
