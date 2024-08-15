@@ -19,5 +19,5 @@ urlpatterns = [
     # path('article/message/<int:pk>', MessageCreate.as_view(), name='message_create'),
     path('article/message/<int:pk>/', login_required(message_create), name='message_create'),
     path('article/message/', login_required(message_journal), name='message_journal'),
-    path('article/message/search/(?P<q>[a-zA-Z0-9_]+)$/', search, name='search'),
+    path('article/message/search/', search, name='search'),
 	] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

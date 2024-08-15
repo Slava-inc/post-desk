@@ -13,18 +13,21 @@ from django.core.mail import send_mail
 
 
 def message_notify(sender, instance, created, **kwargs):
-	send_mail(
-		subject=f'{instance.article.tittle}, {instance.user_from.username}',
-		message=f'on your article  {instance.article.tittle} recieved message  {instance.text}',
-		from_email='slavikdanchenko@yandex.ru',
-		recipient_list=[instance.article.user.email] 
-	)
+	if created==True:
+		send_mail(
+			subject=f'{instance.article.tittle}, {instance.user_from.username}',
+			message=f'on your article  {instance.article.tittle} recieved message  {instance.text}',
+			from_email='slavikdanchenko@yandex.ru',
+			recipient_list=[instance.article.user.email]) 
+	else:
+		pass
+
 
 
 post_save.connect(message_notify, sender=Message)
 
 @login_required
-@permission_required('article.add_Message', raise_exception=True)
+@permission_required('article.add_message', raise_exception=True)
 def message_create(request, pk):
 
 	article = Article.objects.get(id=pk)
@@ -140,8 +143,10 @@ def message_journal(request):
 	messages = Message.objects.filter(article__in=articles)
 	return render(request, 'article/messages.html', {'messages': messages})
 
-def search(request, q):
+def search(request):
 	
+	q = request.GET.get('q')
+
 	if q is None or q is "":
 		messages = Message.objects.all()
 	elif q is not None:
