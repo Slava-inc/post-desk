@@ -7,10 +7,10 @@
         {{ message.text }}
 </div>
 
-<!-- <form action="{% url 'article:message_create' pk=message.id %}" method="post">
+<form action="{% url 'article:message_create' pk=message.article.id %}" method="post">
         {% csrf_token %}
-        <input type="submit" value="Get it">
-</form> -->
+        <input type="submit" value="Accept it">
+</form> 
 
 {% endfor %}
 
@@ -23,4 +23,3 @@ h..." aria-label="Search">
 " type="submit">Search</button>
 </form>
 
-<p><button href="{% url 'article:search' %}"> Search reset </button></p>

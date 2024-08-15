@@ -20,7 +20,11 @@ def message_notify(sender, instance, created, **kwargs):
 			from_email='slavikdanchenko@yandex.ru',
 			recipient_list=[instance.article.user.email]) 
 	else:
-		pass
+		send_mail(
+			subject=f'{instance.text}, {instance.user_from.username}',
+			message=f'your message  {instance.text} recieved message accepted',
+			from_email='slavikdanchenko@yandex.ru',
+			recipient_list=[instance.user_from.email]) 
 
 
 
